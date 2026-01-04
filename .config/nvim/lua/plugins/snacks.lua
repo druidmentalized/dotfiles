@@ -4,13 +4,12 @@ return {
     opts = {
       dashboard = {
         sections = {
-          { section = "keys", gap = 1, padding = 1 }, -- Action buttons
+          { section = "keys", gap = 1, padding = 1 },
           { pane = 1, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
           { pane = 1, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
-          { section = "startup" }, -- Shows how many plugins loaded and how fast
+          { section = "startup", hl = "SnacksDashboardStartup" },
         },
         preset = {
-          -- Your custom Rider-style buttons
           keys = {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
