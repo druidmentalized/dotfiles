@@ -25,6 +25,9 @@ return {
           files = { hidden = true, ignored = true },
         },
       },
+      scroll = {
+        enabled = false,
+      },
     },
   },
 }

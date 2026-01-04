@@ -1,6 +1,7 @@
 # --- Appearance ---
 theme = midnight-mint
 background-opacity = 0.85
+backgournd-blur = 16
 window-decoration = false
 
 # --- MacOS specific ---
