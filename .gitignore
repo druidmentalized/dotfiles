@@ -1,0 +1,11 @@
+# macOS junk
+.DS_Store
+
+# Neovim local data
+*.swp
+*.swo
+undodir/
+.netrwhist
+
+# Large binary logs
+*.log
