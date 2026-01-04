@@ -1,6 +1,6 @@
 # --- Appearance ---
 theme = midnight-mint
-background-opacity = 0.95
+background-opacity = 0.85
 window-decoration = false
 
 # --- MacOS specific ---
@@ -9,7 +9,9 @@ macos-option-as-alt = true
 
 # --- Font ---
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 13
+font-size = 16
+font-thicken=true
+font-thicken-strength=1
 
 # --- Window Layout ---
 window-padding-x = 10
@@ -21,3 +23,5 @@ cursor-style-blink = true
 copy-on-select = true
 
 # --- Key Mappings ---
+keybind = super+d=unbind 
+keybind = super+shift+d=unbind 
