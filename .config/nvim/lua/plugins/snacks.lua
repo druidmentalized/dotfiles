@@ -22,7 +22,9 @@ return {
       },
       picker = {
         sources = {
-          files = { hidden = true, ignored = true },
+          files = {
+            hidden = true,
+          },
         },
       },
       scroll = {

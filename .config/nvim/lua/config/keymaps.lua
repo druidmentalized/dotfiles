@@ -14,3 +14,18 @@ vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", { desc = "Go to Left P
 vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", { desc = "Go to Lower Pane" })
 vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", { desc = "Go to Upper Pane" })
 vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { desc = "Go to Right Pane" })
+
+-- Find files in Home directory
+vim.keymap.set("n", "<leader>fH", function()
+  Snacks.picker.files({ cwd = "~", hidden = true })
+end, { desc = "Find Files (Home)" })
+
+-- Find files in System Root (/)
+vim.keymap.set("n", "<leader>fR", function()
+  Snacks.picker.files({ cwd = "/", hidden = true })
+end, { desc = "Find Files (System Root)" })
+
+-- Grep search in Home directory
+vim.keymap.set("n", "<leader>sg", function()
+  Snacks.picker.grep({ cwd = "~" })
+end, { desc = "Grep (Home)" })
