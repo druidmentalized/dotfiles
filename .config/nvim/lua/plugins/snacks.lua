@@ -20,6 +20,11 @@ return {
           },
         },
       },
+      picker = {
+        sources = {
+          files = { hidden = true, ignored = true },
+        },
+      },
     },
   },
 }

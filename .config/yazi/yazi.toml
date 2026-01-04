@@ -1,7 +1,13 @@
 [opener]
-edit = [
-  { run = 'nvim "$@"', block = true, desc = "Edit" }
-]
+edit = [{ run = 'nvim "$@"', block = true, desc = "Edit" }]
 
 [preview]
 preview_method = "kitty"
+wrap = "yes"
+
+[mgr]
+sort_dir_first = true
+show_hidden = true
+show_gitignored = true
+show_symlink = true
+mouse_events = ["click", "scroll", "touch", "move", "drag"]
