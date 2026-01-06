@@ -110,7 +110,7 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Exporting envs for custom java version
-export JAVA_HOME="$HOME/.jdks/openjdk-25.0.1"
+export JAVA_HOME="$HOME/.jdks/temurin-1.8.0_472"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Initiating zoxide in the terminal
@@ -144,6 +144,5 @@ alias vim='nvim'
 export PATH="/opt/nvim-linux-x86_64/bin:$HOME/.local/bin:$PATH"
 
 # ENV vars for CloudCard
-export CC_HOME=$HOME/IdeaProjects/ccmid-server/
+export CC_HOME=$HOME/IdeaProjects/ccmid-server/ccmid-setup/ccmid-setup-server/build/ccmid-setup-server-3.13.9.3-SNAPSHOT
 export CATALINA_HOME=/opt/apache-tomcat-9.0.113
-export ANT_HOME=/usr/share/ant
