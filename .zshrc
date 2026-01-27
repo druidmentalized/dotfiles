@@ -35,6 +35,10 @@ path+=("$HOME/.antigravity/antigravity/bin")
 # User Binaries (Standard locations)
 path+=("$HOME/bin" "$HOME/.local/bin")
 
+# TEMP john the ripper
+path+=("/opt/homebrew/opt/john-jumbo/share/john/")
+
+
 # ==============================================================================
 # 3. OH-MY-ZSH CONFIGURATION
 # ==============================================================================

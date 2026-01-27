@@ -29,3 +29,6 @@ end, { desc = "Find Files (System Root)" })
 vim.keymap.set("n", "<leader>sg", function()
   Snacks.picker.grep({ cwd = "~" })
 end, { desc = "Grep (Home)" })
+
+-- Paste without overwriting the register
+vim.keymap.set("x", "p", [["_dP]])

@@ -49,13 +49,13 @@ hl(0, "@function.method", { fg = teal })
 hl(0, "@function.call", { fg = white })
 hl(0, "@operator", { fg = teal })
 
--- SYNTAX: CLASSES, TYPES & TAGS (Forced to Purple)
+-- SYNTAX
 hl(0, "@type", { fg = purple })
 hl(0, "@constructor", { fg = purple })
-hl(0, "@tag", { fg = teal }) -- HTML/JSX Tags (div, section, etc)
+hl(0, "@tag", { fg = teal })
 hl(0, "@tag.attribute", { fg = easterGreen })
-hl(0, "@tag.builtin", { fg = purple }) -- Built-in tags
-hl(0, "@tag.delimiter", { fg = purple }) -- Tag brackets (<, >)
+hl(0, "@tag.builtin", { fg = purple })
+hl(0, "@tag.delimiter", { fg = purple })
 hl(0, "@constant", { fg = purple })
 
 -- SYNTAX: STRINGS
@@ -95,3 +95,21 @@ hl(0, "SnacksPickerGitStatusUntracked", { fg = gray })
 hl(0, "SnacksPickerDir", { fg = purple })
 hl(0, "SnacksPickerFile", { fg = white })
 hl(0, "SnacksPickerIcon", { fg = purple })
+
+-- LATEX
+hl(0, "texCmd", { fg = purple, bold = true })
+hl(0, "texPartArgTitle", { fg = orange })
+hl(0, "texGlsArg", { fg = teal })
+hl(0, "texOpt", { fg = cyan })
+hl(0, "texMath", { fg = cyan })
+hl(0, "texMathSymbol", { fg = cyan })
+hl(0, "texComment", { fg = easterGreen })
+
+-- BST
+hl(0, "bstComment", { fg = easterGreen })
+hl(0, "bstCommand", { fg = purple })
+hl(0, "bstString", { fg = orange })
+hl(0, "bstBuiltIn", { fg = orange })
+hl(0, "bstField", { fg = cyan })
+hl(0, "bstIdentifier", { fg = blue })
+hl(0, "bstNumber", { fg = rainee })
