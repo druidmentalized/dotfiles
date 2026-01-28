@@ -1,8 +1,8 @@
 # --- Appearance ---
 theme = midnight-mint
-background-opacity = 0.9
-background-blur = true
-window-decoration = false
+background-opacity = 0.85
+# background-blur = true
+# window-decoration = false
 
 # --- MacOS specific ---
 macos-non-native-fullscreen = true
