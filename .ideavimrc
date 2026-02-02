@@ -1,0 +1,176 @@
+" ------------------------------
+"      LEADER KEY
+" ------------------------------
+
+let mapleader = " "
+
+" ------------------------------
+"      GENERAL VIM SETTINGS
+" ------------------------------
+
+" Show absolute + relative line numbers
+set number
+set relativenumber
+
+" Kee 5 lines visible around cursor
+set scrolloff=10
+
+" Expand command-line entries history, so that more previous commands can be recalled
+set history=1000
+
+" Live incremental search as you type
+set incsearch
+
+" Enable highlighting all matches of search pattern
+set hlsearch
+nnoremap <C-[> :noh<return>
+
+" Avoid entering Ex mode by accident
+map Q gq
+
+" Enable partial commands in command line as typing
+set showcmd
+
+" Use visual flash instead of an audible bell
+set visualbell
+
+" Enable clipboard integration
+set clipboard+=unnamed, unnamedplus
+
+" Enable default global behaviour
+set gdefault
+
+" Enable Intellij features
+set ideajoin
+set ideamarks
+set idearefactormode=normal
+set ideastatusicon=gray
+
+" Easy exchange
+set exchange
+
+" Easy commenting
+set commentary
+
+" Changes register foe replacement
+set ReplaceWithRegister
+
+" Simplifies actions with surroundings of a word(quotes, brackets and etc.)
+set surround
+
+" Enable NERDTree
+set NERDTree
+
+" Enable sneak
+set sneak
+
+" Enable easymotion + command to start it
+set easymotion
+let g:WhichKeyDesc_easymotion = "<leader><leader> EasyMotion"
+
+" Enable highlighting
+set highlightedyank
+
+" Enable highlighting for targets of quick jumps based on specific characters + configured to work only when spec. characters used
+set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" Provide text objects that select the entire buffer
+set textobj-entire
+
+" Allow select text based on indentation
+set indent-object
+
+" Manipulation with function arguments
+set argtextobj
+
+" Enable jumping between tags in HTML/XML
+set matchit
+
+" ------------------------------
+"      PANE NAVIGATION
+" ------------------------------
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+
+" ------------------------------
+"      PANE NAVIGATION
+" ------------------------------
+
+vnoremap < <gv
+vnoremap > >gv
+
+" ------------------------------
+"      SCROLLING
+" ------------------------------
+
+" Scroll half-page with leader keys
+nmap <leader>d <C-d>
+nmap <leader>u <C-u>
+vmap <leader>u <C-u>
+vmap <leader>d <C-d>
+
+
+" ------------------------------
+"      IDE ACTIONS
+" ------------------------------
+
+" Tab switch
+nmap <leader>h <action>(PreviousTab)
+nmap <leader>l <action>(NextTab)
+
+" Close editor
+nmap <leader>bd <action>(CloseEditor)
+
+" Open Generate menu (getters, constructors, etc.)
+nmap <leader>i <action>(Generate)
+
+" Open Git menu
+nmap <leader>m <action>(Git.Menu)
+
+" Quick switch color scheme
+nmap <leader>s <action>(QuickChangeScheme)
+
+" Show error description or tooltip
+nmap <leader>/ <action>(ShowErrorDescription)
+
+" Jump to next error
+nmap <leader>e <action>(GotoNextError)
+
+" Fast tab switch (like Ctrl+Tab)
+nnoremap <leader><leader> <C-Tab>
+
+" Redo instead of line undo
+nnoremap U <C-r>
+
+" Show quickfix / intention menu
+nnoremap <leader>q :action ShowIntentionActions<CR>
+
+" Quick JavaDoc
+nmap <leader>z <Action>(QuickJavaDoc)
+
+" ------------------------------
+"      METHOD NAVIGATION
+" ------------------------------
+
+" Jump to next/previous method
+nnoremap ]] :action MethodDown<CR>
+nnoremap [[ :action MethodUp<CR>
+
+
+" ------------------------------
+"      FILE EXPLORER (NERDTree)
+" ------------------------------
+
+let g:NERDTreeMapActivateNode='l'
+let g:NERDTreeMapJumpParent='h'
+
+
+" ------------------------------
+"       SPLIT SHORTCUTS
+" ------------------------------
+
+nnoremap <leader>sv : vsplit<CR>
+nnoremap <leader>sh : split<CR>

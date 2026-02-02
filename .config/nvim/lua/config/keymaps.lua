@@ -15,20 +15,33 @@ vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", { desc = "Go to Lower 
 vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", { desc = "Go to Upper Pane" })
 vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { desc = "Go to Right Pane" })
 
+local Snacks
+
+local function snacks()
+  if not Snacks then
+    Snacks = require("snacks")
+  end
+  return Snacks
+end
 -- Find files in Home directory
 vim.keymap.set("n", "<leader>fH", function()
-  Snacks.picker.files({ cwd = "~", hidden = true })
+  snacks().picker.files({ cwd = "~", hidden = true })
 end, { desc = "Find Files (Home)" })
 
 -- Find files in System Root (/)
 vim.keymap.set("n", "<leader>fR", function()
-  Snacks.picker.files({ cwd = "/", hidden = true })
+  snacks().picker.files({ cwd = "/", hidden = true })
 end, { desc = "Find Files (System Root)" })
 
 -- Grep search in Home directory
 vim.keymap.set("n", "<leader>sg", function()
-  Snacks.picker.grep({ cwd = "~" })
+  snacks().picker.grep({ cwd = "~" })
 end, { desc = "Grep (Home)" })
 
 -- Paste without overwriting the register
 vim.keymap.set("x", "p", [["_dP]])
+--
+-- TEMP: execute current Lua file (in Neovim Lua context)
+vim.keymap.set("n", "<leader>cx", function()
+  vim.cmd("luafile %")
+end, { desc = "Run current Lua file" })
