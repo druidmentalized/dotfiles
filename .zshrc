@@ -20,10 +20,6 @@ export LANG=en_US.UTF-8
 export EDITOR='nvim'
 
 # --- Custom Paths ---
-# Dotnet
-export DOTNET_ROOT="$HOME/.dotnet"
-path+=("$DOTNET_ROOT" "$DOTNET_ROOT/tools")
-
 export YAZI_ID=1
 
 # Sencha
@@ -34,10 +30,6 @@ path+=("$HOME/.antigravity/antigravity/bin")
 
 # User Binaries (Standard locations)
 path+=("$HOME/bin" "$HOME/.local/bin")
-
-# TEMP john the ripper
-path+=("/opt/homebrew/opt/john-jumbo/share/john/")
-
 
 # ==============================================================================
 # 3. OH-MY-ZSH CONFIGURATION
