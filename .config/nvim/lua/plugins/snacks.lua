@@ -28,7 +28,7 @@ return {
         },
       },
       scroll = {
-        enabled = false,
+        enabled = true,
       },
     },
   },
