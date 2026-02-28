@@ -48,4 +48,4 @@ end, { desc = "Run current Lua file" })
 
 vim.keymap.set("n", "<leader>I", function()
   vim.cmd("Inspect")
-end)
+end, { desc = "Inspect under cursor" })

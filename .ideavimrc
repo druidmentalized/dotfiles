@@ -1,176 +1,99 @@
-" ------------------------------
-"      LEADER KEY
-" ------------------------------
-
+" ---------------------------------------------------------------------
+"                        LEADER & GENERAL
+" ---------------------------------------------------------------------
 let mapleader = " "
 
-" ------------------------------
-"      GENERAL VIM SETTINGS
-" ------------------------------
+" Match your Neovim clipboard behavior (System Sync)
+" Note: Removed the syntax error (space after comma) you had before
+set clipboard+=unnamedplus
 
-" Show absolute + relative line numbers
+" Standard Vim settings
 set number
 set relativenumber
-
-" Kee 5 lines visible around cursor
 set scrolloff=10
-
-" Expand command-line entries history, so that more previous commands can be recalled
+set incsearch
+set hlsearch
+set showcmd
+set visualbell
 set history=1000
 
-" Live incremental search as you type
-set incsearch
-
-" Enable highlighting all matches of search pattern
-set hlsearch
-nnoremap <C-[> :noh<return>
-
-" Avoid entering Ex mode by accident
-map Q gq
-
-" Enable partial commands in command line as typing
-set showcmd
-
-" Use visual flash instead of an audible bell
-set visualbell
-
-" Enable clipboard integration
-set clipboard+=unnamed, unnamedplus
-
-" Enable default global behaviour
-set gdefault
-
-" Enable Intellij features
+" IntelliJ specific integrations
 set ideajoin
 set ideamarks
 set idearefactormode=normal
 set ideastatusicon=gray
 
-" Easy exchange
-set exchange
-
-" Easy commenting
-set commentary
-
-" Changes register foe replacement
-set ReplaceWithRegister
-
-" Simplifies actions with surroundings of a word(quotes, brackets and etc.)
-set surround
-
-" Enable NERDTree
-set NERDTree
-
-" Enable sneak
-set sneak
-
-" Enable easymotion + command to start it
-set easymotion
-let g:WhichKeyDesc_easymotion = "<leader><leader> EasyMotion"
-
-" Enable highlighting
-set highlightedyank
-
-" Enable highlighting for targets of quick jumps based on specific characters + configured to work only when spec. characters used
-set quickscope
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-" Provide text objects that select the entire buffer
-set textobj-entire
-
-" Allow select text based on indentation
-set indent-object
-
-" Manipulation with function arguments
-set argtextobj
-
-" Enable jumping between tags in HTML/XML
-set matchit
-
-" ------------------------------
-"      PANE NAVIGATION
-" ------------------------------
+" ---------------------------------------------------------------------
+"                      NAVIGATION (Ctrl + hjkl)
+" ---------------------------------------------------------------------
+" Move between splits using the same keys as Neovim/Tmux
 nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <C-k> <C-w>k
 nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-" ------------------------------
-"      PANE NAVIGATION
-" ------------------------------
+" ---------------------------------------------------------------------
+"                  WINDOW SPLITS (Match LazyVim)
+" ---------------------------------------------------------------------
+" Vertical Split (Matches your <leader>\)
+nnoremap <leader>\ :action SplitVertically<CR>
 
-vnoremap < <gv
-vnoremap > >gv
+" Horizontal Split (Matches your <leader>-)
+nnoremap <leader>- :action SplitHorizontally<CR>
 
-" ------------------------------
-"      SCROLLING
-" ------------------------------
+" Close current split/tab (Matches LazyVim <leader>wd)
+nnoremap <leader>wd :action CloseContent<CR>
 
-" Scroll half-page with leader keys
-nmap <leader>d <C-d>
-nmap <leader>u <C-u>
-vmap <leader>u <C-u>
-vmap <leader>d <C-d>
+" ---------------------------------------------------------------------
+"                 SNACKS.PICKER REPLICAS (Finding)
+" ---------------------------------------------------------------------
+" <leader><leader> -> Search Everywhere (Matches LazyVim Smart Find)
+nmap <leader><leader> <Action>(SearchEverywhere)
 
+" <leader>ff -> Find Files (Root Dir)
+nmap <leader>ff <Action>(GotoFile)
 
-" ------------------------------
-"      IDE ACTIONS
-" ------------------------------
+" <leader>fb -> Buffers (Recent Files)
+nmap <leader>fb <Action>(RecentFiles)
 
-" Tab switch
-nmap <leader>h <action>(PreviousTab)
-nmap <leader>l <action>(NextTab)
+" <leader>fr -> Recent Files
+nmap <leader>fr <Action>(ManageRecentProjects)
 
-" Close editor
-nmap <leader>bd <action>(CloseEditor)
+" <leader>sg -> Grep / Find in Path
+nmap <leader>sg <Action>(FindInPath)
 
-" Open Generate menu (getters, constructors, etc.)
-nmap <leader>i <action>(Generate)
+" <leader>/ -> Grep (Alternative)
+nmap <leader>/ <Action>(FindInPath)
 
-" Open Git menu
-nmap <leader>m <action>(Git.Menu)
+" ---------------------------------------------------------------------
+"                   EDITING & REFACTORING
+" ---------------------------------------------------------------------
+" Paste without overwriting register (Matches your new Neovim config)
+vnoremap p "_dP
 
-" Quick switch color scheme
-nmap <leader>s <action>(QuickChangeScheme)
+" Rename Symbol (Matches LazyVim <leader>cr)
+nmap <leader>cr <Action>(RenameElement)
 
-" Show error description or tooltip
-nmap <leader>/ <action>(ShowErrorDescription)
+" Code Actions / Intentions (Matches LazyVim <leader>ca)
+nmap <leader>ca <Action>(ShowIntentionActions)
 
-" Jump to next error
-nmap <leader>e <action>(GotoNextError)
+" Go to Definition/Implementation
+nmap gd <Action>(GotoDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gr <Action>(ShowUsages)
 
-" Fast tab switch (like Ctrl+Tab)
-nnoremap <leader><leader> <C-Tab>
+" ---------------------------------------------------------------------
+"                        PLUGIN EMULATION
+" ---------------------------------------------------------------------
+set surround
+set commentary
+set easymotion
+set highlightedyank
+set matchit
+set quickscope
 
-" Redo instead of line undo
-nnoremap U <C-r>
-
-" Show quickfix / intention menu
-nnoremap <leader>q :action ShowIntentionActions<CR>
-
-" Quick JavaDoc
-nmap <leader>z <Action>(QuickJavaDoc)
-
-" ------------------------------
-"      METHOD NAVIGATION
-" ------------------------------
-
-" Jump to next/previous method
-nnoremap ]] :action MethodDown<CR>
-nnoremap [[ :action MethodUp<CR>
-
-
-" ------------------------------
-"      FILE EXPLORER (NERDTree)
-" ------------------------------
-
+" Nerdtree emulation (Maps to Project View)
+set NERDTree
 let g:NERDTreeMapActivateNode='l'
 let g:NERDTreeMapJumpParent='h'
 
-
-" ------------------------------
-"       SPLIT SHORTCUTS
-" ------------------------------
-
-nnoremap <leader>sv : vsplit<CR>
-nnoremap <leader>sh : split<CR>

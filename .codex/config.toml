@@ -1,0 +1,65 @@
+model = "gpt-5.3-codex"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+sandbox_workspace_write.network_access = false
+
+# Optional
+# project_root_markers = [".git", "pom.xml", "build.gradle", "settings.gradle", "package.json"]
+
+[mcp_servers]
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@2.1.2"]
+env_vars = ["CONTEXT7_API_KEY"]
+
+[mcp_servers.fetch]
+command = "docker"
+args = ["run", "-i", "--rm", "mcp/fetch"]
+
+[mcp_servers.filesystem]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-filesystem@2026.1.14", "."]
+
+[mcp_servers.github]
+command = "docker"
+args = [
+    "run",
+    "-i",
+    "--rm",
+    "-e",
+    "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "-e",
+    "GITHUB_READ_ONLY=1",
+    "ghcr.io/github/github-mcp-server",
+]
+env_vars = ["GITHUB_PERSONAL_ACCESS_TOKEN"]
+
+[projects]
+[projects."/Users/dmitriy/IdeaProjects/SpringLibrary"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/RiderProjects/PJAIT_After_Dark"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/IdeaProjects/LeetCode"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/WebstormProjects/CoursePlatform"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/Projects/job-tracking-application"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/Projects/SwiftVoice"]
+trust_level = "trusted"
+
+[notice]
+hide_gpt5_1_migration_prompt = true
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+
+[notice.model_migrations]
+"gpt-5.2" = "gpt-5.2-codex"
+"gpt-5.2-codex" = "gpt-5.3-codex"

@@ -114,3 +114,11 @@ alias yazi="y"
 
 # Load Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ==============================================================================
+# 6. ENV VARS INITIALIZATION
+# ==============================================================================
+
+if [ -f "$HOME/.config/secrets/env.zsh" ]; then
+  source "$HOME/.config/secrets/env.zsh"
+fi
