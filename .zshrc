@@ -17,10 +17,12 @@ export ZSH="$HOME/.oh-my-zsh"
 export LANG=en_US.UTF-8
 
 # Preferred editor
-export EDITOR='nvim'
+export EDITOR="nvim"
 
 # --- Custom Paths ---
 export YAZI_ID=1
+
+export NVIM_PIPE=/tmp/nvim.pipe
 
 # Sencha
 path+=("/opt/Sencha/Cmd")
@@ -91,13 +93,13 @@ alias ll="eza -lha --icons --git"
 alias lt="eza --tree --level=2 --icons"
 
 # cat -> bat (Syntax highlighting cat)
-alias cat="bat" 
+alias cat="bat"
 
 # Ghostty's screensaver (I just really like it)
 alias boo="ghostty +boo"
 
 # YAZI CONFIGURATION (Shell Wrapper)
-# This function allows to use 'y' to open yazi, and upon quiting, 
+# This function allows to use 'y' to open yazi, and upon quiting,
 # the shell changes directory to wherever you were in yazi.
 function y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
