@@ -131,11 +131,12 @@ local function get_mason_pkg_path(pkg_name)
     end
 
     local ok_pkg, pkg = pcall(registry.get_package, pkg_name)
-    if not ok_pkg or pkg:is_installed() then
+    if not ok_pkg or not pkg:is_installed() then
         return nil
     end
 
-    return pkg:get_install_path()
+    local mason_root = require("mason.settings").current.install_root_dir
+    return vim.fs.joinpath(mason_root, "packages", pkg_name)
 end
 
 local function jdtls_cmd(root_dir)
@@ -163,10 +164,150 @@ local function jdtls_cmd(root_dir)
     return cmd
 end
 
-local function collect_bundles() end
-local function java_settings() end
-local function on_attach() end
-local function with_completion_capabilities(config) end
+local function collect_bundles()
+    local bundles = {}
+
+    local debug_path = get_mason_pkg_path("java-debug-adapter")
+        .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
+    local debug_jars = vim.fn.glob(debug_path, false, true)
+    vim.list_extend(bundles, debug_jars)
+
+    local test_path = get_mason_pkg_path("java-test") .. "/extension/server/*.jar"
+    local test_jars = vim.fn.glob(test_path, false, true)
+    vim.list_extend(bundles, test_jars)
+
+    return vim.tbl_filter(function(x)
+        return x and x ~= ""
+    end, bundles)
+end
+
+local function java_settings()
+    return {
+        java = {
+            eclipse = {
+                downloadSources = true,
+            },
+            maven = {
+                downloadSources = true,
+            },
+            signatureHelp = {
+                enabled = true,
+            },
+            configuration = {
+                updateBuildConfiguration = "interactive",
+                runtimes = build_jdtls_runtimes(),
+            },
+            references = {
+                includeDecompiledSources = true,
+            },
+            implementationCodeLens = {
+                enabled = true,
+            },
+            referencesCodeLens = {
+                enabled = true,
+            },
+            inlayHints = {
+                parameterNames = {
+                    enabled = "all",
+                },
+            },
+            format = {
+                enabled = true,
+            },
+            sources = {
+                organizeImports = {
+                    starThreshold = 9999,
+                    staticStarThreshold = 9999,
+                },
+            },
+            codeGeneration = {
+                toString = {
+                    template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                },
+                useBlocks = true,
+            },
+            completion = {
+                favoriteStaticMembers = {
+                    "org.junit.jupiter.api.Assertions.*",
+                    "org.mockito.Mockito.*",
+                    "java.util.Objects.requireNonNull",
+                },
+                importOrder = { "java", "javax", "com", "org" },
+            },
+        },
+    }
+end
+
+local function on_attach(client, buffer)
+    local opts = { buffer = buffer, silent = true }
+
+    vim.keymap.set(
+        "n",
+        "<leader>co",
+        jdtls.organize_imports,
+        vim.tbl_extend("force", opts, { desc = "Organize Imports" })
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>cgs",
+        jdtls.super_implementation,
+        vim.tbl_extend("force", opts, { desc = "Goto Super" })
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>cxv",
+        jdtls.extract_variable_all,
+        vim.tbl_extend("force", opts, { desc = "Extract Variable" })
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>cxc",
+        jdtls.extract_constant,
+        vim.tbl_extend("force", opts, { desc = "Extract Constant" })
+    )
+
+    vim.keymap.set("x", "<leader>cxm", function()
+        jdtls.extract_method(true)
+    end, vim.tbl_extend("force", opts, { desc = "Extract Method" }))
+
+    vim.keymap.set("x", "<leader>cxv", function()
+        jdtls.extract_variable_all(true)
+    end, vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
+
+    vim.keymap.set("x", "<leader>cxc", function()
+        jdtls.extract_constant(true)
+    end, vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
+
+    local has_dap, _ = pcall(require, "dap")
+    if has_dap then
+        jdtls.setup_dap({ hotcodereplace = "auto" })
+        jdtls.dap.setup_dap_main_class_configs()
+
+        vim.keymap.set("n", "<leader>tt", function()
+            require("jdtls.dap").test_class()
+        end, vim.tbl_extend("force", opts, { desc = "Run Java Test Class" }))
+
+        vim.keymap.set("n", "<leader>tr", function()
+            require("jdtls.dap").test_nearest_method()
+        end, vim.tbl_extend("force", opts, { desc = "Run Nearest Java Test" }))
+    end
+end
+
+local function with_completion_capabilities(config)
+    local capabilities = config.capabilities or vim.lsp.protocol.make_client_capabilities()
+
+    local ok_blink, blink = pcall(require, "blink.cmp")
+    if ok_blink then
+        config.capabilities = blink.get_lsp_capabilities(capabilities)
+        return
+    end
+
+    local ok_cmp, cmp = pcall(require, "cmp_nvim_lsp")
+    if ok_cmp then
+        config.capabilities = cmp.default_capabilities(capabilities)
+        return
+    end
+end
 
 function M.setup()
     local bufname = vim.api.nvim_buf_get_name(0)
