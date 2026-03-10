@@ -6,23 +6,36 @@ local gen_utils = require("utils.general")
 local ok_jdtls, jdtls = pcall(require, "jdtls")
 if not ok_jdtls then return M end
 
+local function is_java_vendor(dir_name)
+    local vendors = { "java", "openjdk", "temurin", "coretto", "zulu", "liberica", "sapmachine", "graalvm" }
+
+    dir_name = dir_name:lower()
+
+    for _, vendor in ipairs(vendors) do
+        if dir_name:find(vendor, 1, true) then return true end
+    end
+
+    return false
+end
+
 local function extract_java_homes(base_dirs, os_name)
     local java_homes = {}
 
     for _, base_dir in ipairs(base_dirs) do
         local ok, dir_iter = pcall(vim.fs.dir, base_dir)
-        if not ok then goto continue end
+        if not ok then goto continue_outer end
 
         for name, type in dir_iter do
-            if type ~= "directory" or type ~= "link" then goto continue end
+            if (type ~= "directory" and type ~= "link") or not is_java_vendor(name) then goto continue_inner end
 
             local home_path = base_dir .. "/" .. name
             if os_name == "mac" then home_path = vim.fs.joinpath(home_path, "Contents", "Home") end
 
             table.insert(java_homes, home_path)
+            ::continue_inner::
         end
 
-        ::continue::
+        ::continue_outer::
     end
 
     if vim.env.JAVA_HOME then table.insert(java_homes, vim.env.JAVA_HOME) end
@@ -42,10 +55,12 @@ local function find_java_homes()
         table.insert(base_dirs, "C:\\Program Files\\Java")
     end
 
-    local home = vim.env.home or vim.env.USERPROFILE
+    local home = vim.env.HOME or vim.env.USERPROFILE
+
     if home then
-        table.insert(base_dirs, ".sdkman/candidates/java")
-        table.insert(base_dirs, ".java")
+        table.insert(base_dirs, vim.fs.joinpath(home, ".sdkman/candidates/java"))
+        table.insert(base_dirs, vim.fs.joinpath(home, ".java"))
+        table.insert(base_dirs, vim.fs.joinpath(home, ".jdks"))
     end
 
     return extract_java_homes(base_dirs, os_name)
@@ -72,6 +87,7 @@ local function build_jdtls_runtimes()
 
     for _, path in ipairs(paths) do
         local name = determine_java_runtime(path)
+
         if name and not seen_versions[name] then
             local runtime = { name = name, path = path, default = (name == "JavaSE-25") }
             table.insert(runtimes, runtime)
@@ -122,6 +138,13 @@ end
 local function jdtls_cmd(root_dir)
     local cmd = { vim.fn.exepath("jdtls") }
 
+    vim.list_extend(cmd, {
+        "--jvm-arg=-Xms2g",
+        "--jvm-arg=-Xmx12g",
+        "--jvm-arg=-XX:+UseG1GC",
+        "--jvm-arg=-XX:+UseStringDeduplication",
+    })
+
     local jdtls_path = get_mason_pkg_path("jdtls")
     if jdtls_path then
         local lombok = vim.fs.joinpath(jdtls_path, "lombok.jar")
@@ -160,6 +183,9 @@ end
 local function java_settings()
     return {
         java = {
+            autobuild = {
+                enabled = false,
+            },
             eclipse = {
                 downloadSources = true,
             },
@@ -184,7 +210,7 @@ local function java_settings()
             },
             inlayHints = {
                 parameterNames = {
-                    enabled = "all",
+                    enabled = "literals",
                 },
             },
             format = {
@@ -262,8 +288,7 @@ local function on_attach(client, buffer)
 
     local has_dap, _ = pcall(require, "dap")
     if has_dap then
-        jdtls.setup_dap({ hotcodereplace = "auto" })
-        jdtls.dap.setup_dap_main_class_configs()
+        require("jdtls").setup_dap({ hotcodereplace = "auto" })
 
         vim.keymap.set(
             "n",
@@ -304,8 +329,17 @@ function M.setup()
     local root_dir = find_root_dir(bufname)
     if not root_dir then return end
 
+    local clients = vim.lsp.get_clients({ name = "jdtls" })
+    for _, client in ipairs(clients) do
+        if client.config.root_dir == root_dir then
+            vim.lsp.buf_attach_client(0, client.id)
+            return
+        end
+    end
+
     local config = {
         name = "jdtls",
+        root_dir = root_dir,
         cmd = jdtls_cmd(root_dir),
         init_options = {
             bundles = collect_bundles(),
@@ -315,7 +349,8 @@ function M.setup()
     }
 
     with_completion_capabilities(config)
-    jdtls.start_or_attach(config)
+
+    require("jdtls").start_or_attach(config)
 end
 
 return M
