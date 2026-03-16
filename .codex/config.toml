@@ -1,4 +1,4 @@
-model = "gpt-5.3-codex"
+model = "gpt-5.4"
 model_reasoning_effort = "medium"
 personality = "pragmatic"
 
@@ -56,6 +56,9 @@ trust_level = "trusted"
 [projects."/Users/dmitriy/Projects/SwiftVoice"]
 trust_level = "trusted"
 
+[projects."/Users/dmitriy/Projects/cv"]
+trust_level = "trusted"
+
 [notice]
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true
@@ -63,3 +66,4 @@ hide_gpt5_1_migration_prompt = true
 [notice.model_migrations]
 "gpt-5.2" = "gpt-5.2-codex"
 "gpt-5.2-codex" = "gpt-5.3-codex"
+"gpt-5.3-codex" = "gpt-5.4"

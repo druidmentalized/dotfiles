@@ -349,7 +349,6 @@ function M.setup()
     }
 
     with_completion_capabilities(config)
-
     require("jdtls").start_or_attach(config)
 end
 

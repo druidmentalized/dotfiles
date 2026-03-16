@@ -1,0 +1,5 @@
+vim.keymap.set("n", "<leader>re", ":MoltenEvaluateOperator<CR>", { desc = "Run Current Cell", buffer = true })
+vim.keymap.set("n", "<leader>rl", ":MoltenEvaluateLine<CR>", { desc = "Run current Line", buffer = true })
+vim.keymap.set("v", "<leader>rv", ":<C-u>MoltenEvaluateVisual<CR>gv", { desc = "Run Selected", buffer = true })
+vim.keymap.set("n", "<leader>rd", ":MoltenDelete<CR>", { desc = "Delete Current Output", buffer = true })
+vim.keymap.set("n", "<leader>mi", ":MoltenInit<CR>", { desc = "Initialize Molten(once per session)", buffer = true })

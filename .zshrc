@@ -22,10 +22,7 @@ export EDITOR="nvim"
 # --- Custom Paths ---
 export YAZI_ID=1
 
-export NVIM_PIPE=/tmp/nvim.pipe
-
-# Sencha
-path+=("/opt/Sencha/Cmd")
+path+=("$HOME/miniconda3/bin")
 
 # Antigravity
 path+=("$HOME/.antigravity/antigravity/bin")
