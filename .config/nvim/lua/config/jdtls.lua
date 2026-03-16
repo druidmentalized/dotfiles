@@ -2,6 +2,7 @@ local M = {}
 
 local classpath_generator = require("utils.classpath-generator")
 local gen_utils = require("utils.general")
+local wk = require("which-key")
 
 local ok_jdtls, jdtls = pcall(require, "jdtls")
 if not ok_jdtls then return M end
@@ -243,66 +244,63 @@ end
 local function on_attach(client, buffer)
     local opts = { buffer = buffer, silent = true }
 
-    vim.keymap.set(
-        "n",
-        "<leader>co",
-        jdtls.organize_imports,
-        vim.tbl_extend("force", opts, { desc = "Organize Imports" })
-    )
-    vim.keymap.set(
-        "n",
-        "<leader>cgs",
-        jdtls.super_implementation,
-        vim.tbl_extend("force", opts, { desc = "Goto Super" })
-    )
-    vim.keymap.set(
-        "n",
-        "<leader>cxv",
-        jdtls.extract_variable_all,
-        vim.tbl_extend("force", opts, { desc = "Extract Variable" })
-    )
-    vim.keymap.set(
-        "n",
-        "<leader>cxc",
-        jdtls.extract_constant,
-        vim.tbl_extend("force", opts, { desc = "Extract Constant" })
-    )
-    vim.keymap.set(
-        "x",
-        "<leader>cxm",
-        function() jdtls.extract_method(true) end,
-        vim.tbl_extend("force", opts, { desc = "Extract Method" })
-    )
-    vim.keymap.set(
-        "x",
-        "<leader>cxv",
-        function() jdtls.extract_variable_all(true) end,
-        vim.tbl_extend("force", opts, { desc = "Extract Variable" })
-    )
-    vim.keymap.set(
-        "x",
-        "<leader>cxc",
-        function() jdtls.extract_constant(true) end,
-        vim.tbl_extend("force", opts, { desc = "Extract Constant" })
-    )
+    wk.add({
+        { "<leader>c", group = "code", icon = " " },
+        { "<leader>co", jdtls.organize_imports, desc = "Organize Imports", icon = "󱀯", buffer = buffer },
+
+        { "<leader>cg", group = "goto", icon = "   " },
+        { "<leader>cgs", jdtls.super_implementation, desc = "Goto Super", icon = "", buffer = buffer },
+
+        { "<leader>cx", group = "extract", icon = "" },
+        { "<leader>cxv", jdtls.extract_variable_all, desc = "Extract Variable", icon = "󰫧", buffer = buffer },
+        { "<leader>cxc", jdtls.extract_constant, desc = "Extract Constant", icon = "", buffer = buffer },
+        {
+            "<leader>cxm",
+            function() jdtls.extract_method(true) end,
+            desc = "Extract Method",
+            mode = "x",
+            icon = "󰊕",
+            buffer = buffer,
+        },
+        {
+            "<leader>cxv",
+            function() jdtls.extract_variable_all(true) end,
+            desc = "Extract Variable",
+            mode = "x",
+            icon = "󰫧",
+            buffer = buffer,
+        },
+        {
+            "<leader>cxc",
+            function() jdtls.extract_constant(true) end,
+            desc = "Extract Constant",
+            mode = "x",
+            icon = "",
+            buffer = buffer,
+        },
+    })
 
     local has_dap, _ = pcall(require, "dap")
     if has_dap then
         require("jdtls").setup_dap({ hotcodereplace = "auto" })
 
-        vim.keymap.set(
-            "n",
-            "<leader>tt",
-            function() require("jdtls.dap").test_class() end,
-            vim.tbl_extend("force", opts, { desc = "Run Java Test Class" })
-        )
-
-        vim.keymap.set(
-            "n",
-            "<leader>tr",
-            function() require("jdtls.dap").test_nearest_method() end,
-            vim.tbl_extend("force", opts, { desc = "Run Nearest Java Test" })
-        )
+        wk.add({
+            { "<leader>t", group = "test", icon = "󰙨" },
+            {
+                "<leader>tt",
+                function() require("jdtls.dap").test_class() end,
+                desc = "Run Java Test Class",
+                icon = "",
+                buffer = buffer,
+            },
+            {
+                "<leader>tr",
+                function() require("jdtls.dap").test_nearest_method() end,
+                desc = "Run Nearest Java Test",
+                icon = "",
+                buffer = buffer,
+            },
+        })
     end
 end
 

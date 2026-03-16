@@ -7,16 +7,6 @@ return {
         },
     },
     {
-        "3rd/image.nvim",
-        dependencies = { "luarocks.nvim" },
-        opts = {
-            backend = "kitty",
-            processor = "magick_cli",
-            max_width = 100,
-            max_height = 12,
-        },
-    },
-    {
         "benlubas/molten-nvim",
         version = "^1.0.0",
         build = ":UpdateRemotePlugins",
@@ -27,7 +17,7 @@ return {
     },
     {
         "GCBallesteros/jupytext.nvim",
-        lazy = true,
+        lazy = false,
         opts = {
             custom_language_formatting = {
                 python = {

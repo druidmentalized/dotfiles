@@ -1,46 +1,48 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+local wk = require("which-key")
 
--- Delete the old LazyVim defaults if they conflict (optional)
-vim.keymap.del("n", "<leader>|")
-vim.keymap.del("n", "<leader>-")
+-- Handle Deletions
+wk.add({
+    { "<leader>|", hidden = true },
+    { "<leader>-", hidden = true },
+})
 
--- New intuitive split keys
-vim.keymap.set("n", "<leader>\\", "<cmd>vsplit<cr>", { desc = "Split Vertical" })
-vim.keymap.set("n", "<leader>-", "<cmd>split<cr>", { desc = "Split Horizontal" })
+-- General Navigation & Splits
+wk.add({
+    -- Window Splits
+    { "<leader>\\", "<cmd>vsplit<cr>", desc = "Split Vertical", icon = "󰤼" },
+    { "<leader>-", "<cmd>split<cr>", desc = "Split Horizontal", icon = "󰤻" },
 
-vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", { desc = "Go to Left Pane" })
-vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", { desc = "Go to Lower Pane" })
-vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", { desc = "Go to Upper Pane" })
-vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { desc = "Go to Right Pane" })
+    -- Tmux/Pane Navigation (No leader)
+    { "<C-h>", "<cmd>TmuxNavigateLeft<cr>", desc = "Go to Left Pane", icon = " " },
+    { "<C-j>", "<cmd>TmuxNavigateDown<cr>", desc = "Go to Lower Pane", icon = " " },
+    { "<C-k>", "<cmd>TmuxNavigateUp<cr>", desc = "Go to Upper Pane", icon = " " },
+    { "<C-l>", "<cmd>TmuxNavigateRight<cr>", desc = "Go to Right Pane", icon = " " },
 
-local Snacks
+    -- System Utilities
+    { "<leader>I", function() vim.cmd("Inspect") end, desc = "Inspect Under Cursor", icon = "" },
 
-local function snacks()
-    if not Snacks then Snacks = require("snacks") end
-    return Snacks
-end
--- Find files in Home directory
-vim.keymap.set(
-    "n",
-    "<leader>fH",
-    function() snacks().picker.files({ cwd = "~", hidden = true }) end,
-    { desc = "Find Files (Home)" }
-)
+    -- Keep Register
+    { "p", [["_dP]], desc = "Paste (Keep Register)", mode = "x", icon = "   " },
+})
 
--- Find files in System Root (/)
-vim.keymap.set(
-    "n",
-    "<leader>fR",
-    function() snacks().picker.files({ cwd = "/", hidden = true }) end,
-    { desc = "Find Files (System Root)" }
-)
+-- Snacks / Finder
+local function snacks() return require("snacks") end
 
--- Grep search in Home directory
-vim.keymap.set("n", "<leader>sg", function() snacks().picker.grep({ cwd = "~" }) end, { desc = "Grep (Home)" })
+wk.add({
+    -- Additional Find
+    {
+        "<leader>fH",
+        function() snacks().picker.files({ cwd = "~", hidden = true }) end,
+        desc = "Home Directory",
+        icon = "󰋜",
+    },
+    {
+        "<leader>fR",
+        function() snacks().picker.files({ cwd = "/", hidden = true }) end,
+        desc = "System Root",
+        icon = "",
+    },
 
--- Paste without overwriting the register
-vim.keymap.set("x", "p", [["_dP]])
-
-vim.keymap.set("n", "<leader>I", function() vim.cmd("Inspect") end, { desc = "Inspect Under Cursor" })
+    -- Search
+    { "<leader>sg", function() snacks().picker.grep({ cwd = "~" }) end, desc = "Grep (Home)", icon = "󰋜" },
+})
