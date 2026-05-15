@@ -22,6 +22,7 @@ export EDITOR="nvim"
 # --- Custom Paths ---
 export YAZI_ID=1
 
+# Miniconda
 path+=("$HOME/miniconda3/bin")
 
 # Antigravity
@@ -29,6 +30,9 @@ path+=("$HOME/.antigravity/antigravity/bin")
 
 # User Binaries (Standard locations)
 path+=("$HOME/bin" "$HOME/.local/bin")
+
+# Maven
+path+="$HOME/.m2/wrapper/dists/apache-maven-3.9.9-bin/4nf9hui3q3djbarqar9g711ggc/apache-maven-3.9.9/bin"
 
 # ==============================================================================
 # 3. OH-MY-ZSH CONFIGURATION

@@ -1,30 +1,36 @@
 vim.opt_local.wrap = false
+vim.opt_local.spell = false
 
 local wk = require("which-key")
 
 wk.add({
-    -- Markdown
     { "<leader>m", group = "markdown", icon = " " },
 
-    -- Jupyter Group
-    { "<leader>j", group = "jupyter", icon = { icon = "󰺃", color = "yellow" } },
+    { "<leader>j", group = "jupyter", icon = { icon = "󰺃 ", color = "yellow" } },
 
-    -- Molten Management
     { "<leader>jm", group = "molten", icon = "󰟕" },
-    { "<leader>jmi", ":MoltenInit<CR>", desc = "Initialize Molten", icon = "󰁡", buffer = true },
+    { "<leader>jmi", "<cmd>MoltenInit<cr>", desc = "Initialize Molten", icon = "󰁡 ", buffer = true },
 
-    -- Run
     { "<leader>jr", group = "run", icon = "" },
-    { "<leader>jrl", ":MoltenEvaluateLine<CR>", desc = "Run Line", icon = "", buffer = true },
-    { "<leader>jrd", ":MoltenDelete<CR>", desc = "Delete Output", icon = "󰆴", buffer = true },
-    { "<leader>jre", ":MoltenEvaluateOperator<CR>", desc = "Run Current Cell", icon = "", buffer = true },
-
+    { "<leader>jrl", "<cmd>MoltenEvaluateLine<cr>", desc = "Run Line", icon = "", buffer = true, silent = true },
+    { "<leader>jd", "<cmd>MoltenDelete<cr>", desc = "Delete Output", icon = "󰆴", buffer = true, silent = true },
+    {
+        "<leader>jre",
+        function()
+            vim.cmd("MoltenEvaluateOperator")
+            vim.schedule(function() vim.api.nvim_feedkeys("ib", "n", false) end)
+        end,
+        desc = "Run Current Cell",
+        icon = " ",
+        buffer = true,
+        silent = true,
+    },
     {
         "<leader>jrv",
         ":<C-u>MoltenEvaluateVisual<CR>gv",
         desc = "Run Selection",
         mode = "v",
-        icon = "",
+        icon = " ",
         buffer = true,
     },
 })
