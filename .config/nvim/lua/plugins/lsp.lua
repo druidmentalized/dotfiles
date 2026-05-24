@@ -15,9 +15,7 @@ return {
                 },
             },
             setup = {
-                jdtls = function()
-                    return true
-                end,
+                jdtls = function() return true end,
             },
         },
     },

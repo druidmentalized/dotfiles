@@ -1,13 +1,13 @@
 return {
-  {
-    "druidmentalized/rider-theme.nvim",
-    dir = "~/Projects/rider-theme.nvim",
-    priority = 1000,
-    lazy = false,
-    opts = {
-      transparent = false,
+    {
+        "druidmentalized/rider-theme.nvim",
+        dir = "~/Projects/rider-theme.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {
+            transparent = false,
+        },
     },
-  },
 
-  { "LazyVim/LazyVim", opts = { colorscheme = "rider-islands-dark" } },
+    { "LazyVim/LazyVim", opts = { colorscheme = "rider-islands-dark" } },
 }
