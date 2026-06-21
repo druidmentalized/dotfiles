@@ -24,6 +24,7 @@ return {
             },
             exe = "roslyn",
             args = { "--stdio", "--logLevel=Information" },
+            ignore_target = function(target) return target:match("backend/") ~= nil end,
         },
     },
 }
