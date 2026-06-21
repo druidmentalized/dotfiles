@@ -23,10 +23,14 @@ return {
     {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
-        version = "0.3.*",
+        version = "1.*",
         build = function() require("typst-preview").update() end,
         opts = {
             open_cmd = "open %s",
+            port = 65058,
+            dependencies_bin = {
+                ["tinymist"] = vim.fn.expand("~/.local/share/nvim/mason/bin/tinymist"),
+            },
         },
         keys = {
             { "<leader>tp", "<cmd>TypstPreviewToggle<cr>", desc = "Toggle Typst Preview" },
