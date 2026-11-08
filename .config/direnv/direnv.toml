@@ -1,0 +1,5 @@
+[global]
+# Quiet shell startup in projects: no "loading …" lines and no "export +VAR" diff.
+# Errors (e.g. "… is blocked. Run `direnv allow`") are still printed.
+log_format = "-"
+hide_env_diff = true

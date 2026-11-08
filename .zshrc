@@ -1,6 +1,14 @@
 # ==============================================================================
+# 0. PRE INSTANT PROMPT
+# ==============================================================================
+# Load direnv env before instant prompt: its output after the preamble triggers p10k's warning.
+# The hook itself still comes from the oh-my-zsh 'direnv' plugin (section 3).
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
+# ==============================================================================
 # 1. POWERLEVEL10K INSTANT PROMPT
 # ==============================================================================
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -19,20 +27,28 @@ export LANG=en_US.UTF-8
 # Preferred editor
 export EDITOR="nvim"
 
-# --- Custom Paths ---
-export YAZI_ID=1
+# Orbstack instead of Docker (for programms orienting on env var for socket placement)
+export DOCKER_HOST="unix://$HOME/.orbstack/run/docker.sock"
 
-# Miniconda
-path+=("$HOME/miniconda3/bin")
+# Lazygit (on macOS it otherwise reads ~/Library/Application Support/lazygit)
+export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yaml"
+
+# --- Custom Paths ---
 
 # Antigravity
 path+=("$HOME/.antigravity/antigravity/bin")
 
-# User Binaries (Standard locations)
-path+=("$HOME/bin" "$HOME/.local/bin")
+# User Binaries
+# NOTE: ~/.local/bin goes first so local overrides win over Homebrew installations
+# Example: uv-managed pythong
+path=("$HOME/.local/bin" $path)
+path+=("$HOME/bin")
 
 # Maven
 path+="$HOME/.m2/wrapper/dists/apache-maven-3.9.9-bin/4nf9hui3q3djbarqar9g711ggc/apache-maven-3.9.9/bin"
+
+# psql
+path+=("/opt/homebrew/opt/libpq/bin")
 
 # ==============================================================================
 # 3. OH-MY-ZSH CONFIGURATION
@@ -58,21 +74,15 @@ source $ZSH/oh-my-zsh.sh
 
 # Initialize Zoxide (Better CD)
 if command -v zoxide > /dev/null; then
-  eval "$(zoxide init zsh)"
+  eval "$(zoxide init zsh --cmd cd)"
 fi
 
-# Initialize FZF (Fuzzy Finder)
-# Uses brew prefix to find the script regardless of Intel vs Apple Silicon
-if [[ -f "$(brew --prefix)/opt/fzf/install" ]]; then
-    [ -f "$(brew --prefix)/opt/fzf/shell/completion.zsh" ] && source "$(brew --prefix)/opt/fzf/shell/completion.zsh"
-    [ -f "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh" ] && source "$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+# Initialize FZF (Fuzzy Finder): completion + Ctrl-R/Ctrl-T/Alt-C key bindings
+if command -v fzf > /dev/null; then
+    source <(fzf --zsh)
 fi
 
-# Direnv (Hook)
-if command -v direnv > /dev/null; then
-    emulate zsh -c "$(direnv export zsh)"
-    emulate zsh -c "$(direnv hook zsh)"
-fi
+# Direnv is hooked by the oh-my-zsh 'direnv' plugin (section 3); its env is loaded in section 0
 
 # ==============================================================================
 # 5. ALIASES & FUNCTIONS
@@ -86,7 +96,6 @@ alias ohmyzsh="nvim ~/.oh-my-zsh"
 # Modern Replacements (Linux parity)
 alias vim="nvim"
 alias vi="nvim"
-alias cd="z"
 
 # ls -> eza (Modern ls)
 alias ls="eza --icons --git"
@@ -99,17 +108,19 @@ alias cat="bat"
 # Ghostty's screensaver (I just really like it)
 alias boo="ghostty +boo"
 
+# Docker compose neat call
+alias compose="docker compose"
+
 # YAZI CONFIGURATION (Shell Wrapper)
 # This function allows to use 'y' to open yazi, and upon quiting,
 # the shell changes directory to wherever you were in yazi.
 function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-
-    command yazi "$@" --cwd-file="$tmp"
-    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-        builtin cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
+	local tmp cwd
+	tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+	command rm -f -- "$tmp"
 }
 
 # Alias for yazi to call wrapper
@@ -117,11 +128,3 @@ alias yazi="y"
 
 # Load Powerlevel10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# ==============================================================================
-# 6. ENV VARS INITIALIZATION
-# ==============================================================================
-
-if [ -f "$HOME/.config/secrets/env.zsh" ]; then
-  source "$HOME/.config/secrets/env.zsh"
-fi
