@@ -10,7 +10,7 @@ macos-option-as-alt = true
 
 # --- Font ---
 font-family = "JetBrainsMono Nerd Font Mono"
-font-size = 16
+font-size = 13
 font-thicken=true
 font-thicken-strength=1
 
@@ -24,5 +24,11 @@ cursor-style-blink = true
 copy-on-select = true
 
 # --- Key Mappings ---
-keybind = super+d=unbind 
-keybind = super+shift+d=unbind 
+keybind = super+d=unbind
+keybind = super+shift+d=unbind
+
+# Option+\ sends ESC | (tmux M-| split); a literal ESC \ collides with ST ending terminal replies
+keybind = alt+backslash=esc:|
+
+# --- Shaders ---
+custom-shader = ./shaders/cursor_warp.glsl
