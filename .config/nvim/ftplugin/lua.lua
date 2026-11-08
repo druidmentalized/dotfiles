@@ -6,7 +6,6 @@ wk.add({
         function() vim.cmd("luafile %") end,
         desc = "Execute current file",
         mode = "n",
-        group = "markdown",
         icon = "",
         buffer = true,
     },

@@ -9,3 +9,12 @@ for name, type in vim.fs.dir(path) do
         end
     end
 end
+
+-- Nvim 0.12's builtin :lsp has no log subcommand (nvim-lspconfig's :LspLog is gone)
+if vim.fn.exists(":LspLog") ~= 2 then
+    vim.api.nvim_create_user_command(
+        "LspLog",
+        function() vim.cmd("tabnew " .. vim.fn.fnameescape(vim.lsp.log.get_filename())) end,
+        { desc = "Open the Nvim LSP client log" }
+    )
+end
