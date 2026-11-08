@@ -1,41 +1,14 @@
-model = "gpt-5.4"
-model_reasoning_effort = "medium"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "xhigh"
 personality = "pragmatic"
 
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 sandbox_workspace_write.network_access = false
+approvals_reviewer = "user"
 
 # Optional
 # project_root_markers = [".git", "pom.xml", "build.gradle", "settings.gradle", "package.json"]
-
-[mcp_servers]
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp@2.1.2"]
-env_vars = ["CONTEXT7_API_KEY"]
-
-[mcp_servers.fetch]
-command = "docker"
-args = ["run", "-i", "--rm", "mcp/fetch"]
-
-[mcp_servers.filesystem]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-filesystem@2026.1.14", "."]
-
-[mcp_servers.github]
-command = "docker"
-args = [
-    "run",
-    "-i",
-    "--rm",
-    "-e",
-    "GITHUB_PERSONAL_ACCESS_TOKEN",
-    "-e",
-    "GITHUB_READ_ONLY=1",
-    "ghcr.io/github/github-mcp-server",
-]
-env_vars = ["GITHUB_PERSONAL_ACCESS_TOKEN"]
 
 [projects]
 [projects."/Users/dmitriy/IdeaProjects/SpringLibrary"]
@@ -59,11 +32,40 @@ trust_level = "trusted"
 [projects."/Users/dmitriy/Projects/cv"]
 trust_level = "trusted"
 
+[projects."/Users/dmitriy/Projects/Jobbless"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/Projects/Knowshi"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/Projects/Mentorship/Andrii"]
+trust_level = "trusted"
+
+[projects."/Users/dmitriy/Projects/Mentorship/Wojciech"]
+trust_level = "trusted"
+
+[mcp_servers]
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@2.1.2"]
+env_vars = ["CONTEXT7_API_KEY"]
+
 [notice]
 hide_gpt5_1_migration_prompt = true
 "hide_gpt-5.1-codex-max_migration_prompt" = true
+fast_default_opt_out = true
 
 [notice.model_migrations]
 "gpt-5.2" = "gpt-5.2-codex"
 "gpt-5.2-codex" = "gpt-5.3-codex"
 "gpt-5.3-codex" = "gpt-5.4"
+"gpt-5.4" = "gpt-5.6-terra"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
+screen_reader_detection_done = true
+
+[tui.model_availability_nux]
+"gpt-5.6-sol" = 1
+gpt-6-astra = 4
+"gpt-6.1-sol" = 4
