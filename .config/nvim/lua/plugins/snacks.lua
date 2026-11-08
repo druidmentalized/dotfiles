@@ -42,6 +42,7 @@ return {
                     },
                 },
             },
+            image = { enabled = false },
             picker = {
                 sources = {
                     files = {
