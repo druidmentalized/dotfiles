@@ -169,14 +169,19 @@ end
 local function collect_bundles()
     local bundles = {}
 
-    local debug_path = get_mason_pkg_path("java-debug-adapter")
-        .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
-    local debug_jars = vim.fn.glob(debug_path, false, true)
-    vim.list_extend(bundles, debug_jars)
+    local debug_pkg = get_mason_pkg_path("java-debug-adapter")
+    if debug_pkg then
+        local debug_path = debug_pkg .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
+        local debug_jars = vim.fn.glob(debug_path, false, true)
+        vim.list_extend(bundles, debug_jars)
+    end
 
-    local test_path = get_mason_pkg_path("java-test") .. "/extension/server/*.jar"
-    local test_jars = vim.fn.glob(test_path, false, true)
-    vim.list_extend(bundles, test_jars)
+    local test_pkg = get_mason_pkg_path("java-test")
+    if test_pkg then
+        local test_path = test_pkg .. "/extension/server/*.jar"
+        local test_jars = vim.fn.glob(test_path, false, true)
+        vim.list_extend(bundles, test_jars)
+    end
 
     return vim.tbl_filter(function(x) return x and x ~= "" end, bundles)
 end
