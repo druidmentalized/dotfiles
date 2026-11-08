@@ -1,5 +1,4 @@
 local handle_csharp = function(e)
-    vim.notify("Inserting template for C# file: " .. e.file, vim.log.levels.INFO)
     local filename = vim.fn.fnamemodify(e.file, ":t:r")
 
     local template = "class"
@@ -25,9 +24,6 @@ end
 
 local insertTemplate = function(e)
     if not is_buffer_empty(e.buf) then return end
-
-    vim.notify("Executing insertion callback for new file: " .. e.file, vim.log.levels.INFO)
-
     local handler = type_to_handler[vim.bo[e.buf].filetype]
     if handler then handler(e) end
 end
