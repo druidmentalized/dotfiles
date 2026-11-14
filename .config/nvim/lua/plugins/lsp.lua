@@ -25,7 +25,18 @@ return {
                 pyright = { before_init = python_venv_before_init },
                 jdtls = {},
                 vtsls = { enabled = false },
-                tsc = {},
+                tsc = {
+                    settings = {
+                        ["js/ts"] = {
+                            inlayHints = {
+                                parameterTypes = { enabled = false },
+                                variableTypes = { enabled = false },
+                                propertyDeclarationTypes = { enabled = false },
+                                functionLikeReturnTypes = { enabled = false },
+                            },
+                        },
+                    },
+                },
             },
             setup = {
                 jdtls = function() return true end,
