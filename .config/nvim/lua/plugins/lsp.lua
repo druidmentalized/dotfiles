@@ -23,9 +23,7 @@ return {
         opts = {
             servers = {
                 pyright = { before_init = python_venv_before_init },
-                basedpyright = { before_init = python_venv_before_init },
                 jdtls = {},
-                -- Native TS 7 server (`tsc --lsp`, from mason's `tsc`) replaces vtsls
                 vtsls = { enabled = false },
                 tsc = {},
             },
