@@ -9,9 +9,7 @@ return {
 
     {
         "seblyng/roslyn.nvim",
-        ft = "cs",
-        -- Server settings go through vim.lsp.config (roslyn.nvim opts only take plugin options).
-        -- Set in init so they exist before the plugin's `vim.lsp.enable("roslyn")` runs.
+        lazy = false,
         init = function()
             vim.lsp.config("roslyn", {
                 settings = {
@@ -25,7 +23,14 @@ return {
             })
         end,
         opts = {
-            ignore_target = function(target) return target:match("backend/") ~= nil end,
+            choose_target = function(targets)
+                local function depth(path) return select(2, path:gsub("/", "")) end
+                local highest = targets[1]
+                for _, target in ipairs(targets) do
+                    if depth(target) < depth(highest) then highest = target end
+                end
+                return highest
+            end,
         },
     },
 }
