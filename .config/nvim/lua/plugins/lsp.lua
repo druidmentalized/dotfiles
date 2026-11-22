@@ -22,7 +22,23 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                basedpyright = { before_init = python_venv_before_init },
+                basedpyright = {
+                    before_init = python_venv_before_init,
+                    settings = {
+                        basedpyright = {
+                            analysis = {
+                                inlayHints = {
+                                    variableTypes = false,
+                                    genericTypes = false,
+                                },
+                                diagnosticSeverityOverrides = {
+                                    reportAny = "none",
+                                    reportExplicitAny = "none",
+                                },
+                            },
+                        },
+                    },
+                },
                 jdtls = {},
                 vtsls = { enabled = false },
                 tsc = {
