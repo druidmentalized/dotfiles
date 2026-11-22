@@ -4,6 +4,9 @@
 
 vim.opt.updatetime = 250
 
+-- basedpyright adds Pylance-only features pyright lacks (e.g. "add import" quick fixes)
+vim.g.lazyvim_python_lsp = "basedpyright"
+
 -- No plugin uses remote-plugin providers; disabling them silences checkhealth
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
