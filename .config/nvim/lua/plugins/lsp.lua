@@ -59,4 +59,19 @@ return {
             },
         },
     },
+
+    {
+        "mrcjkb/rustaceanvim",
+        opts = {
+            server = {
+                default_settings = {
+                    ["rust-analyzer"] = {
+                        -- LazyVim's checkOnSave runs `cargo check`; clippy adds its lints and quick fixes
+                        check = { command = "clippy" },
+                        diagnostics = { experimental = { enable = true } },
+                    },
+                },
+            },
+        },
+    },
 }
