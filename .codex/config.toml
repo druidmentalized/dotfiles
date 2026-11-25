@@ -1,71 +1,100 @@
-model = "gpt-6.1-sol"
+model = "gpt-6.2-sol"
 model_reasoning_effort = "xhigh"
 personality = "pragmatic"
-
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
-sandbox_workspace_write.network_access = false
 approvals_reviewer = "user"
+
+[sandbox_workspace_write]
+  network_access = false
 
 # Optional
 # project_root_markers = [".git", "pom.xml", "build.gradle", "settings.gradle", "package.json"]
-
 [projects]
-[projects."/Users/dmitriy/IdeaProjects/SpringLibrary"]
-trust_level = "trusted"
 
-[projects."/Users/dmitriy/RiderProjects/PJAIT_After_Dark"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/IdeaProjects/SpringLibrary"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/IdeaProjects/LeetCode"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/RiderProjects/PJAIT_After_Dark"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/WebstormProjects/CoursePlatform"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/IdeaProjects/LeetCode"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/job-tracking-application"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/WebstormProjects/CoursePlatform"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/SwiftVoice"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/job-tracking-application"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/cv"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/SwiftVoice"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/Jobbless"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/cv"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/Knowshi"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/Jobbless"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/Mentorship/Andrii"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/Knowshi"]
+    trust_level = "trusted"
 
-[projects."/Users/dmitriy/Projects/Mentorship/Wojciech"]
-trust_level = "trusted"
+  [projects."/Users/dmitriy/Projects/Mentorship/Andrii"]
+    trust_level = "trusted"
 
-[mcp_servers]
-[mcp_servers.context7]
-command = "npx"
-args = ["-y", "@upstash/context7-mcp@2.1.2"]
-env_vars = ["CONTEXT7_API_KEY"]
+  [projects."/Users/dmitriy/Projects/Mentorship/Wojciech"]
+    trust_level = "trusted"
+
+  [projects."/Users/dmitriy/Projects/ASI"]
+    trust_level = "trusted"
+
+  [projects."/Users/dmitriy/dotfiles"]
+    trust_level = "trusted"
+
+  [projects."/Users/dmitriy/Projects/Mentorship/Darya/Authentication-Service"]
+    trust_level = "trusted"
+
+  [projects."/Users/dmitriy/Projects/Mentorship/Darya/user-service"]
+    trust_level = "trusted"
+
+  [mcp_servers.context7]
+    command = "npx"
+    args = ["-y", "@upstash/context7-mcp@2.1.2"]
+    env_vars = ["CONTEXT7_API_KEY"]
+
+  [mcp_servers.idea]
+    url = "http://127.0.0.1:64342/stream"
+
+    [mcp_servers.idea.env_http_headers]
+      IJ_MCP_LAUNCH_ORIGIN = "IJ_MCP_LAUNCH_ORIGIN"
+
+  [mcp_servers.pycharm]
+    url = "http://127.0.0.1:64462/stream"
+
+    [mcp_servers.pycharm.env_http_headers]
+      IJ_MCP_LAUNCH_ORIGIN = "IJ_MCP_LAUNCH_ORIGIN"
+
+  [mcp_servers.nvim]
+    command = "/Users/dmitriy/.cargo/bin/nvim-mcp"
+    args = ["--connect", "auto"]
 
 [notice]
-hide_gpt5_1_migration_prompt = true
-"hide_gpt-5.1-codex-max_migration_prompt" = true
-fast_default_opt_out = true
+  hide_gpt5_1_migration_prompt = true
+  "hide_gpt-5.1-codex-max_migration_prompt" = true
+  fast_default_opt_out = true
+  hide_rate_limit_model_nudge = true
 
-[notice.model_migrations]
-"gpt-5.2" = "gpt-5.2-codex"
-"gpt-5.2-codex" = "gpt-5.3-codex"
-"gpt-5.3-codex" = "gpt-5.4"
-"gpt-5.4" = "gpt-5.6-terra"
+  [notice.model_migrations]
+    "gpt-5.2" = "gpt-5.2-codex"
+    "gpt-5.2-codex" = "gpt-5.3-codex"
+    "gpt-5.3-codex" = "gpt-5.4"
+    "gpt-5.4" = "gpt-5.6-terra"
 
 [tui]
-status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
-screen_reader_detection_done = true
+  status_line = ["model-with-reasoning", "current-dir", "git-branch", "context-used", "five-hour-limit", "weekly-limit"]
+  screen_reader_detection_done = true
 
-[tui.model_availability_nux]
-"gpt-5.6-sol" = 1
-gpt-6-astra = 4
-"gpt-6.1-sol" = 4
+  [tui.model_availability_nux]
+    "gpt-5.6-sol" = 1
+    gpt-6-astra = 4
+    "gpt-6.1-sol" = 4
